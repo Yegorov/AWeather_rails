@@ -73,9 +73,16 @@ Rails.application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
-  
-  config.assets.raise_runtime_errors = true
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+  
+  
+  STDOUT.sync = true
+
+logger = Logger.new(STDOUT)
+logger.level = 0 # Must be numeric here - 0 :debug, 1 :info, 2 :warn, 3 :error, and 4 :fatal
+# NOTE:   with 0 you're going to get all DB calls, etc.
+
+Rails.logger = Rails.application.config.logger = logger
 end
