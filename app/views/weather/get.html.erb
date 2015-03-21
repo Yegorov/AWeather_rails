@@ -1,0 +1,63 @@
+<%=
+=begin
+<h1>Weather#get</h1>
+<p>Find me in app/views/weather/get.html.erb</p>
+<div class="well">
+Hello
+</div>
+<div class="well" id="login">
+    <button type="button" class="btn btn-lg btn-primary center-block" id="signInVK">Sign in VK</button>
+</div>
+=end
+%>
+
+
+<div class="container">
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right">
+        <li role="presentation" class="active"><%= link_to "Home", "/" %></li>
+        <li role="presentation"><%= link_to "About", "/about" %></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted"><%= $project_name %></h3>
+  </div>
+
+  <div class="jumbotron">
+    <h2>Current weather in Gorlovka</h2>
+	<div style="text-align: right">Date: <span class="label label-info"><%= "%s/%s/%s" % [@day, @month, @year] %></div>
+	<div class="lead">
+	<ul class="list-group">
+		<li>
+			Air temperature: <span class="label label-primary"><%= "%s %s" % [@temp, "\u00B0 C"] %></span>
+		</li>
+		<li>
+			Bar: <span class="label label-primary"><%= "%s %s" % [@bar, "mm Hg"] %></span>
+		</li>
+		<li>
+			Humidity: <span class="label label-primary"><%= "%s %s" % [@humidity, "%"] %></span>
+		</li>
+		<li>
+			Wind: <span class="label label-primary"><%= "%s %s, %s" % [@wind_s, "m/s", @wind_d] %></span>
+		</li>
+	</ul>
+	<ul class="list-group list-inline">
+		<li>
+			Sunrise: <span class="label label-primary"><%= @sunrise %></span> 
+		</li>
+		<li>
+			Sunset: <span class="label label-primary"><%= @sunset %></span>
+		</li>
+		<li>
+			Moon: <span class="label label-primary"><%= @moon %></span>
+		</li>
+	</ul>
+	</div>
+  </div>
+
+  <footer class="footer">
+	<p class="pull-right"><small><a href="http://inmart.ua/show_weather">Inmart</a> - weather forecast provider</small></p>
+    <p class="center-block"><%= "%s, %s" % [$project_name, $year.to_s] %></p>
+  </footer>
+
+</div>
