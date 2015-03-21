@@ -6,6 +6,5 @@ class ApplicationController < ActionController::Base
   $project_name = "AWeather"
   $time = Time.now
   $year = Time.now.year
-  
-  
+
 end

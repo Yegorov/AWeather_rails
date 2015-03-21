@@ -10,7 +10,7 @@ class WeatherController < ApplicationController
 	@sunset = "17:00"
 	@moon = "Full"
 	
-	@date = Time.now
+	@date = Time.now.localtime("+02:00")
 	
   end
   def get
@@ -24,8 +24,17 @@ class WeatherController < ApplicationController
 	@sunset = param_sun[1]
 	
 	#test
-	@temp = params[:temp]
-	@moon = params[:moon]
+	#@temp = params[:temp]
+	#@moon = params[:moon]
+	#weather_parser = WetherParser.new
+	#weather = weather_parser.get_weather
+	weather = Parser.parse
+	@temp = weather[:temp]
+	@bar = weather[:bar]
+	@humidity = weather[:humidity]
+	@wind_s = weather[:wind_s]
+	@wind_d = weather[:wind_d]
+	
   end
   
 end

@@ -8,6 +8,7 @@ class StaticData
   
   private
   def self.prepare_moon_data
+  
     ["Full moon"]
   end
   def self.prepare_sun_data(la, lo, loc_offset, zenith)
