@@ -18,7 +18,7 @@ class Parser
                 }
   def self.parse
     #res = Net::HTTP.get_response(URI('http://inmart.ua/android_weather.php'))
-	#weather = { "temp" => 'unknown', 
+	weather = { "temp" => 'unknown', 
 	      "bar" =>  'unknown',
 		  "humidity" => 'unknown',
 		  "wind_s" => 'unknown',
