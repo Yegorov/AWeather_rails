@@ -17,24 +17,24 @@ class Parser
                   "14" => "Southeast"
                 }
   def self.parse
-    res = Net::HTTP.get_response(URI('http://inmart.ua/android_weather.php'))
-	weather = { "temp" => 'unknown', 
+    #res = Net::HTTP.get_response(URI('http://inmart.ua/android_weather.php'))
+	#weather = { "temp" => 'unknown', 
 	      "bar" =>  'unknown',
 		  "humidity" => 'unknown',
 		  "wind_s" => 'unknown',
 		  "wind_d" => 'unknown'
 		}
 
-	case res
-    when Net::HTTPSuccess
-      w = res.body.split("~") # new method
+	#case res
+    #when Net::HTTPSuccess
+      w = "humidity~barPressure~airTemp~windSpeed~windDirection"#res.body.split("~") # new method
       weather[:temp] = w[2]
 	  weather[:bar] = w[1]
 	  weather[:humidity] = w[0]
 	  weather[:wind_s] = w[3]
 	  weather[:wind_d] = @@direction.has_key?(w[4]) ? @@direction[w[4]] : 'unknown'
 	  weather
-    end  
+    #end  
   end
 end
 #class WetherParser
