@@ -22,6 +22,10 @@ class WeatherController < ApplicationController
 	param_sun = StaticData.get_sun(1,2,3,4)
 	@sunrise = param_sun[0]
 	@sunset = param_sun[1]
+	
+	#test
+	@temp = params[:temp]
+	@moon = params[:moon]
   end
   
 end
