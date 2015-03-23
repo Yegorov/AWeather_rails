@@ -1,3 +1,5 @@
+require 'net/http'
+
 class Parser
   @@direction = {
                   "0"  => "South",
