@@ -17,11 +17,11 @@ class WeatherController < ApplicationController
     @day = @date.day < 10 ? "0" + @date.day.to_s : @date.day.to_s
 	@month = @date.month < 10 ? "0" + @date.month.to_s : @date.month.to_s
 	@year = @date.year
-	@moon = StaticData.get_moon[0]
+	@moon = StaticData.get_moon(@date.year.to_i, @date.month.to_i, @date.day.to_i)
 	
-	param_sun = StaticData.get_sun(1,2,3,4)
-	@sunrise = param_sun[0]
-	@sunset = param_sun[1]
+	param_sun = StaticData.get_sun(@date.year.to_i, @date.month.to_i, @date.day.to_i, 48.333611, 38.0925, +2, 90.8333333333)
+	@sunrise = param_sun[:sunrise]
+	@sunset = param_sun[:sunset]
 	
 	#test
 	#@temp = params[:temp]
