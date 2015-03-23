@@ -21,6 +21,5 @@ module AWeather
     # config.i18n.default_locale = :de
 	
 	config.autoload_paths += %W(#{config.root}/app/classes)
-	
   end
 end
