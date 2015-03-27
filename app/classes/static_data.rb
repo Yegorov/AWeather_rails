@@ -2,6 +2,7 @@ class StaticData
   def self.get_moon(y, m, d)
     prepare_moon_data(y, m, d)
   end
+  
   def self.get_sun(y, m, d, la, lo, loc_offset, zenith)
     prepare_sun_data(y, m, d, la, lo, loc_offset, zenith)
   end
@@ -80,7 +81,7 @@ class StaticData
 	# 2. convert the longitude to hour value and calculate an approximate time
     lng_hour = longitude / 15.0
     t_sunrise = n + ((6.0 - lng_hour) / 24.0)
-    t_sunset = N + ((18.0 - lng_hour) / 24.0)
+    t_sunset = n + ((18.0 - lng_hour) / 24.0)
 	
     # 3. calculate the Sun's mean anomaly
     m_sunrise = (0.9856 * t_sunrise) - 3.289
@@ -135,95 +136,88 @@ class StaticData
     ra_sunset =  ra_sunset  / 15.0
 	
     # 6. calculate the Sun's declination
-    sin_dec_sunrise = 0.39782 * Math.sin(Math.toRadians(l_sunrise))
+    sin_dec_sunrise = 0.39782 * Math.sin(to_radians(l_sunrise))
     cos_dec_sunrise = Math.cos(Math.asin(sin_dec_sunrise))
-    sin_dec_sunset = 0.39782 * Math.sin(Math.toRadians(l_sunset))
+    sin_dec_sunset = 0.39782 * Math.sin(to_radians(l_sunset))
     cos_dec_sunset = Math.cos(Math.asin(sin_dec_sunset))
 	
 	
-	#############################################################################
-	#############################################################################
-	#############################################################################
-	#############################################################################
-	#############################################################################
-	
-	
     # 7a. calculate the Sun's local hour angle
-    cosHSunRise = (Math.cos(to_radians(zenith)) - (sinDecSunRise * Math.sin(to_radians(latitude)))) / (cosDecSunRise * Math.cos(to_radians(latitude)))
-    cosHSunSet =  (Math.cos(to_radians(zenith)) - (sinDecSunSet  * Math.sin(to_radians(latitude)))) / (cosDecSunSet  * Math.cos(to_radians(latitude)))
+    cos_h_sunrise = (Math.cos(to_radians(zenith)) - (sin_dec_sunrise * Math.sin(to_radians(latitude)))) / (cos_dec_sunrise * Math.cos(to_radians(latitude)))
+    cos_h_sunset =  (Math.cos(to_radians(zenith)) - (sin_dec_sunset  * Math.sin(to_radians(latitude)))) / (cos_dec_sunset  * Math.cos(to_radians(latitude)))
 
     # 7b. finish calculating H and convert into hours
     # if rising time is desired:
-    HSunRise = 360.0 - to_degrees(Math.acos(cosHSunRise))
+    h_sunrise = 360.0 - to_degrees(Math.acos(cos_h_sunrise))
     # if setting time is desired:
-    HSunSet = to_degrees(Math.acos(cosHSunSet))
+    h_sunset = to_degrees(Math.acos(cos_h_sunset))
 	
-    HSunRise = HSunRise / 15.0;
-    HSunSet = HSunSet / 15.0;
+    h_sunrise = h_sunrise / 15.0
+    h_sunset  = h_sunset  / 15.0
 	
 	# 8. calculate local mean time of rising/setting
-    TSunRise = HSunRise + raSunRise - (0.06571 * tSunRise) - 6.622
-    TSunSet = HSunSet + raSunSet - (0.06571 * tSunSet) - 6.622
+    tt_sunrise = h_sunrise + ra_sunrise - (0.06571 * t_sunrise) - 6.622
+    tt_sunset  = h_sunset  + ra_sunset  - (0.06571 * t_sunset)  - 6.622
 	
     # 9. adjust back to UTC
-    UTSunRise = TSunRise - lngHour
-    UTSunSet = TSunSet - lngHour
+    ut_sunrise = tt_sunrise - lng_hour
+    ut_sunset  = tt_sunset  - lng_hour
     # NOTE: UT potentially needs to be adjusted into the range [0,24) by adding/subtracting 24
-    if UTSunRise < 0 
-      while (!(0 <= UTSunRise && UTSunRise < 24))
-        UTSunRise += 24
+    if ut_sunrise < 0 
+      while (!(0 <= ut_sunrise && ut_sunrise < 24))
+        ut_sunrise += 24
 	  end
-    elsif UTSunRise >= 24
-      while (!(0 <= UTSunRise && UTSunRise < 24))
-        UTSunRise -= 24
+    elsif ut_sunrise >= 24
+      while (!(0 <= ut_sunrise && ut_sunrise < 24))
+        ut_sunrise -= 24
 	  end
     end
 	
-    if UTSunSet < 0
-      while (!(0 <= UTSunSet && UTSunSet < 24))
-        UTSunSet += 24
+    if ut_sunset < 0
+      while (!(0 <= ut_sunset && ut_sunset < 24))
+        ut_sunset += 24
 	  end
-    elsif UTSunSet >= 24
-      while (!(0 <= UTSunSet && UTSunSet < 24))
-        UTSunSet -= 24
+    elsif ut_sunset >= 24
+      while (!(0 <= ut_sunset && ut_sunset < 24))
+        ut_sunset -= 24
 	  end
     end
 	
 	
     # 10. convert UT value to local time zone of latitude/longitude
-    localTSunRise = UTSunRise + loc_offset
-    localTSunSet = UTSunSet + loc_offset
+    local_t_sunrise = ut_sunrise + loc_offset
+    local_t_sunset  = ut_sunset  + loc_offset
 	
-    if localTSunRise < 0
-      while (!(0 <= localTSunRise && localTSunRise < 24))
-        localTSunRise += 24
+    if local_t_sunrise < 0
+      while (!(0 <= local_t_sunrise && local_t_sunrise < 24))
+        local_t_sunrise += 24
 	  end
-    elsif localTSunRise >= 24
-      while (!(0 <= localTSunRise && localTSunRise < 24))
-        localTSunRise -= 24
+    elsif local_t_sunrise >= 24
+      while (!(0 <= local_t_sunrise && local_t_sunrise < 24))
+        local_t_sunrise -= 24
 	  end
     end
 	
-    if localTSunSet < 0
-      while (!(0 <= localTSunSet && localTSunSet < 24))
-        localTSunSet += 24
+    if local_t_sunset < 0
+      while (!(0 <= local_t_sunset && local_t_sunset < 24))
+        local_t_sunset += 24
 	  end
-    else if localTSunSet >= 24
-      while (!(0 <= localTSunSet && localTSunSet < 24))
-        localTSunSet -= 24
+    elsif local_t_sunset >= 24
+      while (!(0 <= local_t_sunset && local_t_sunset < 24))
+        local_t_sunset -= 24
 	  end
     end
 	
-    sun[:sunrise] = value_of_hour(localTSunRise)
-    sun[:sunset] = value_of_hour(localTSunSet)
+    sun[:sunrise] = value_of_hour(local_t_sunrise)
+    sun[:sunset]  = value_of_hour(local_t_sunset)
 
 	sun
   end
   
-  def self.value_of_hour(h)
+  def self.value_of_hour(hour)
     h = hour.to_i
     min = hour - h
     m = (min * 60).to_i
-	"%2d:%2d" % [h, m]
+	"%02d:%02d" % [h, m]
   end
 end

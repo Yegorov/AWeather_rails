@@ -21,11 +21,11 @@ class Parser
   def self.parse
     res = Net::HTTP.get_response(URI('http://inmart.ua/android_weather.php'))
 	weather = { "temp" => 'unknown', 
-	      "bar" =>  'unknown',
-		  "humidity" => 'unknown',
-		  "wind_s" => 'unknown',
-		  "wind_d" => 'unknown'
-		}
+				"bar" =>  'unknown',
+				"humidity" => 'unknown',
+				"wind_s" => 'unknown',
+				"wind_d" => 'unknown'
+			}
 	case res
     when Net::HTTPSuccess
       w = res.body.split("~")
